@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<nav>
+    IA
+    {% if verified %}
+    <a href="/verificar">Verify</a>
+    {% endif %}
+    <a href="/vincular">Vincular perfil</a>
+    <a href="/sair">Sair</a>
+</nav>
+{% endblock %}

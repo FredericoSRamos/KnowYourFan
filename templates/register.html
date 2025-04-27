@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+
+{% block style %}
+<link href="../static/register.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid d-flex justify-content-center align-items-center">
+    <div class="row w-100">
+        <div class="col-md-8 col-lg-6 mx-auto">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Cadastro</h2>
+
+                    <!-- Display error message if it exists -->
+                    {% if message %}
+                        <div class="alert alert-danger mt-3">
+                            <p><strong>Erro:</strong> {{ message }}</p>
+                        </div>
+                    {% endif %}
+
+                    <form action="/cadastro" id="registrationForm" method="post">
+                        <!-- Section 1: Personal Information -->
+                        <fieldset>
+                            <legend>Informações Pessoais</legend>
+
+                            <div class="form-group mb-3">
+                                <label for="name">Nome</label>
+                                <input id="name" name="name" class="form-control" placeholder="Nome" required type="text">
+                            </div>
+
+                            <div class="form-row mb-3">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="cpf">CPF</label>
+                                        <input id="cpf" name="cpf" class="form-control" placeholder="CPF" required type="text">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="birthdate">Data de Nascimento</label>
+                                        <input id="birthdate" name="birthdate" class="form-control" required type="date">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="about">Conte um pouco sobre você</label>
+                                <textarea id="about" name="about" class="form-control" placeholder="Sobre mim..." required maxlength="500"></textarea>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="events">Quais eventos já participou?</label>
+                                <textarea id="events" name="events" class="form-control" placeholder="Eventos..." maxlength="500"></textarea>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="purchases">Compras de nossos produtos</label>
+                                <textarea id="purchases" name="purchases" class="form-control" placeholder="Compras..." maxlength="500"></textarea>
+                            </div>
+                        </fieldset>
+
+                        <!-- Section 2: Contact Information -->
+                        <fieldset>
+                            <legend>Informações de Contato</legend>
+
+                            <div class="form-row mb-3">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="phone">Telefone</label>
+                                        <input id="phone" name="phone" class="form-control" placeholder="Telefone" required type="tel">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="email">E-mail</label>
+                                        <input id="email" name="email" class="form-control" placeholder="E-mail" required type="email">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="address">Endereço</label>
+                                <input id="address" name="address" class="form-control" placeholder="Endereço" required type="text">
+                            </div>
+                        </fieldset>
+
+                        <!-- Section 3: Account Information -->
+                        <fieldset>
+                            <legend>Dados de Acesso</legend>
+
+                            <div class="form-group mb-3">
+                                <label for="username">Nome de usuário</label>
+                                <input id="username" name="username" class="form-control" placeholder="Nome de usuário" required type="text">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="password">Senha</label>
+                                <input id="password" name="password" class="form-control" placeholder="Senha" required type="password">
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button type="submit" class="btn btn-primary btn-block mt-3">Cadastrar</button>
+                                <a href="/entrar" class="btn btn-link">Entrar</a>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
