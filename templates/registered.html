@@ -1,12 +1,56 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<nav>
-    IA
-    {% if verified %}
-    <a href="/verificar">Verify</a>
-    {% endif %}
-    <a href="/vincular">Vincular perfil</a>
-    <a href="/sair">Sair</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+    <div class="container-fluid">
+        <!-- Button to open chatbot window -->
+        <button class="btn btn-outline-light ms-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+            IA
+        </button>
+        
+        <!-- Toggler button for mobile view -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Verify and Logout buttons -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto gap-4">
+                {% if not verified %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/verificar">Verificar</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/vincular">Vincular perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/sair">Sair</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
+
+<!-- Sidebar chatbot -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+    <div class="offcanvas-header">
+        <h5 id="sidebarLabel">Chatbot</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="chat-container">
+            <div class="chat-box" id="chat-box">
+                <!-- Chat messages will appear here -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Digite uma mensagem..." class="form-control mt-2" />
+                <button id="send-button" class="btn btn-primary mt-2" onclick="sendMessage()">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type="text/javascript" src="../static/chatbot.js"></script>
 {% endblock %}

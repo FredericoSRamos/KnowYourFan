@@ -1,14 +1,11 @@
-from flask import Flask, render_template, request, session, redirect
-from db import init_app, get_db
+from flask import Flask, render_template, request, session, redirect, jsonify
+from google import genai
 from helpers import hash_password, check_password
+from db import get_db, init_app
 
 app = Flask(__name__)
-app.config.from_mapping(
-    SECRET_KEY="dev",
-    DATABASE="./instance/db.sqlite"
-)
 
-app.config.from_pyfile("config.py", silent=True)
+app.config.from_pyfile("config.py")
 init_app(app)
 
 @app.route("/")
@@ -66,7 +63,7 @@ def login():
         return render_template("login.html", message="Preencha todos os campos")
 
     db = get_db()
-    print(db.execute("SELECT * FROM users").fetchone())
+
     user = db.execute("SELECT * FROM users WHERE username = ? OR cpf = ?", (login, login)).fetchone()
     if user is None:
         return render_template("login.html", message="Usuário inexistente")
@@ -75,7 +72,7 @@ def login():
         return render_template("login.html", message="Senha incorreta")
 
     session["user_id"] = user["id"]
-    return render_template("main.html")
+    return redirect("/principal")
 
 @app.route("/sair")
 def logout():
@@ -87,3 +84,26 @@ def main():
     if "user_id" not in session:
         return redirect("/")
     return render_template("main.html")
+
+@app.route("/bot-response", methods=["POST"])
+def get_bot_response():
+    if "user_id" not in session:
+        return jsonify({ "error": "Usuário não registrado" }), 400
+
+    data = request.get_json()
+    prompt = data.get("message")
+
+    if not prompt:
+        return jsonify({ "error": "Nenhuma mensagem fornecida" }), 400
+    
+    try:
+        client = genai.Client(api_key=app.config["GOOGLE_GEMINI_API_KEY"])
+
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt
+        )
+
+        return jsonify({ "message": response.text }), 200
+    except Exception as e:
+        return jsonify({ "error": str(e) }), 500
