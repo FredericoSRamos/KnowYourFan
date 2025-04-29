@@ -183,7 +183,7 @@ fieldset {
     padding: 2rem;
 }
 
-h2, h3, h1, legend {
+h2, h3, h1, legend, .form-text {
     color: #f0f0f0;
 }
 

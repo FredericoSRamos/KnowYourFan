@@ -12,5 +12,6 @@ CREATE TABLE users (
     about TEXT NOT NULL,
     events TEXT,
     purchases TEXT,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    is_verified INTEGER
 );

@@ -1,1 +1,48 @@
 {% extends "registered.html" %}
+
+{% block navbar_elements %}
+<li class="nav-item">
+    <a class="nav-link" href="/principal">Home</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/vincular">Vincular perfil</a>
+</li>
+{% endblock %}
+
+{% block body_append %}
+
+{% if is_verified %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="alert alert-success text-center w-50 p-4">
+        Você já está verificado
+    </div>
+</div>
+{% else %}
+<div class="container mt-5">
+    <h1 class="text-center text-white mb-5">Envie seus documentos para validação</h1>
+
+    <!-- Display error message if it exists -->
+    {% if message %}
+    <div class="alert alert-danger mt-3 w-50 mx-auto">
+        <p class="mb-0 text-center">{{ message }}</p>
+    </div>
+    {% endif %}
+
+    <div class="d-flex justify-content-center">
+        <form action="/upload-documents" class="w-50" enctype="multipart/form-data" method="post">
+            <!-- Carteira de Identidade -->
+            <div class="mb-4 p-3 border border-white rounded">
+                <label for="identity-card" class="form-label text-white fs-4">Carteira de Identidade</label>
+                <input accept="image/jpeg, image/jpg, image/png" class="form-control form-control-sm" id="identidade" name="identity-card" required type="file">
+                <div class="form-text">Envie uma foto clara da sua carteira de identidade.</div>
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-5">Enviar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

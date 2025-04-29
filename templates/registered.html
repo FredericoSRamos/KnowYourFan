@@ -13,17 +13,13 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         
-        <!-- Verify and Logout buttons -->
+        <!-- Verify, Link and Logout buttons -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto gap-4">
-                {% if not verified %}
-                <li class="nav-item">
-                    <a class="nav-link" href="/verificar">Verificar</a>
-                </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="/vincular">Vincular perfil</a>
-                </li>
+                
+                {% block navbar_elements %}
+                {% endblock %}
+
                 <li class="nav-item">
                     <a class="nav-link" href="/sair">Sair</a>
                 </li>
@@ -50,6 +46,9 @@
         </div>
     </div>
 </div>
+
+{% block body_append %}
+{% endblock %}
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 <script type="text/javascript" src="../static/chatbot.js"></script>
