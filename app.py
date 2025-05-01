@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, session, redirect, jsonify
-from helpers import hash_password, check_password, is_file_valid, handle_image, handle_ai_connection
+from flask import Flask, render_template, request, session, redirect, jsonify, url_for
+from flask_dance.contrib.twitch import twitch
+from helpers import hash_password, check_password, is_file_valid, handle_image, handle_ai_connection, parse_response
 from db import get_db, init_app
 
 app = Flask(__name__)
 
-app.config.from_pyfile("config.py")
 init_app(app)
 
 @app.route("/")
@@ -83,9 +83,35 @@ def main():
     if "user_id" not in session:
         return redirect("/login")
 
-    return render_template("main.html")
+    db = get_db()
 
-@app.route("/verificar", methods=["GET"])
+    user_info = db.execute("SELECT username, about, events, purchases FROM users WHERE id = ?", (session["user_id"],)).fetchone()
+
+    username = user_info["username"]
+    about = user_info["about"]
+    events = user_info["events"]
+    purchases = user_info["purchases"]
+
+    prompt = "\
+    Você possui a seguinte descrição sobre um usuário:" + about + "\
+    Também sabe que ele participou dos seguintes eventos:" + events + "\
+    E também sabe que ele fez as seguintes compras:" + purchases + "\
+    Sabendo essas informações sobre o usuário, busque conteúdo sobre e-sports relevante para ele e retorne.\
+    Caso não haja informação suficiente para aferir nada sobre o usuário, retorne conteúdo sobre e-sports em geral.\
+    **Não forneça nenhuma introdução ou explicação. Apenas retorne o conteúdo das notícias**\
+    Lembre-se de que cada notícia deve começar com um título apropriado, seguido de dois pontos (':'), sem marcar elementos ou incluir qualquer texto extra, como introduções ou explicações.\
+    "
+
+    response, status_code = handle_ai_connection(app.config["GOOGLE_GEMINI_API_KEY"], prompt)
+    print(response)
+    if status_code != 200:
+        return render_template("main.html", username=username, message="Houve um erro ao carregar o conteúdo principal")
+
+    feed = parse_response(response)
+
+    return render_template("main.html", username=username, feed=feed)
+
+@app.route("/verificar")
 def verify():
     if "user_id" not in session:
         return redirect("/login")
@@ -108,6 +134,31 @@ def link():
 
     if request.method == "GET":
         return render_template("link.html")
+
+@app.route("/twitch")
+def twitch_login():
+    if "user_id" not in session:
+        return redirect("/login")
+
+    if not twitch.authorized:
+        print("Redirect URI:", url_for("twitch.login"))
+        return redirect(url_for("twitch.login"))
+
+    return redirect("/principal")
+
+@app.route("/twitch/authorized")
+def twitch_authorized():
+    if not twitch.authorized:
+        print("Redirect URI:", url_for("twitch.authorized"))
+        print("Redirect URI:", url_for("twitch_authorized"))
+        return render_template("link.html", message="Erro na autenticação")
+
+    response = twitch.get("users")
+    user_info = response.json()
+
+    print(user_info)
+
+    return render_template("link.html", success="Autenticado com sucesso")
 
 @app.route("/bot-response", methods=["POST"])
 def get_bot_response():

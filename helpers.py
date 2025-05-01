@@ -28,8 +28,18 @@ def handle_ai_connection(api_key, prompt):
             model="gemini-2.0-flash",
             contents=prompt
         )
-        print(prompt, response)
         return response.text, 200
     except Exception as e:
-        print(e)
         return str(e), 500
+
+def parse_response(response):
+    responses = []
+    parts = [line.strip() for line in response.split("\n") if line.strip()]
+
+    for part in parts:
+        split_part = part.split(":", 1)
+        
+        if split_part[0] and split_part[1]:
+            responses.append(part.split(":", 1))
+    
+    return responses

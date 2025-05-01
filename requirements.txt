@@ -1,3 +1,4 @@
 Flask
 bcrypt
 google-genai
+Flask-Dance

@@ -8,3 +8,26 @@
     <a class="nav-link" href="/verificar">Verificar</a>
 </li>
 {% endblock %}
+
+{% block body_append %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Vincule suas contas</h1>
+    <p class="text-center mb-5">Escolha uma plataforma para vincular sua conta</p>
+
+    <br>
+
+    <div class="row">
+        <div class="auth-section">
+            <div class="text-center">
+                <div class="auth-icon">
+                    <i class="fab fa-twitch"></i>
+                </div>
+                <h3 class="auth-title">Twitch</h3>
+                <a href="/twitch" class="text-white">
+                    <button class="auth-btn twitch-btn">Vincular conta da Twitch</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

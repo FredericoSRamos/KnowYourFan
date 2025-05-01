@@ -1,4 +1,5 @@
 from flask import current_app, g
+from flask_dance.contrib.twitch import make_twitch_blueprint
 import click
 import sqlite3
 
@@ -29,5 +30,10 @@ def init_db_command():
     click.echo("Database initialized.")
 
 def init_app(app):
+    app.config.from_pyfile("config.py")
+    
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+
+    twitch_bp = make_twitch_blueprint(redirect_to="twitch_authorized")
+    app.register_blueprint(twitch_bp, url_prefix='/twitch')

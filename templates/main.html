@@ -8,3 +8,26 @@
     <a class="nav-link" href="/vincular">Vincular perfil</a>
 </li>
 {% endblock %}
+
+{% block body_append %}
+<div class="container mt-4">
+    <h1 class="text-center">Bem-vindo, {{ username }}</h1>
+
+    <!-- Display error message if it exists -->
+    {% if message %}
+    <div class="alert alert-danger mt-3">
+        <p class="mb-0">{{ message }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Feed container -->
+    <div class="feed-container mt-4">
+        {% for item in feed %}
+        <div class="news-item mb-4">
+            <div class="news-title h5">{{ item[0] }}</div>
+            <div class="news-description">{{ item[1] }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
