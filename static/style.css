@@ -231,6 +231,12 @@ input, textarea, select, .form-control {
     border: 1px solid white;
 }
 
+.success {
+    background-color: #78e27e;
+    color: black;
+    border: 1px solid white;
+}
+
 .container-fluid {
     padding: 0;
 }

@@ -16,6 +16,20 @@
 
     <br>
 
+    <!-- Display error message if it exists -->
+    {% if message %}
+    <div class="alert alert-danger mt-3">
+        <p class="mb-0">{{ message }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Display success message -->
+    {% if success %}
+    <div class="sucess mt-3">
+        <p class="mb-0">{{ success }}</p>
+    </div>
+    {% endif %}
+
     <div class="row">
         <div class="auth-section">
             <div class="text-center">

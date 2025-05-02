@@ -35,5 +35,5 @@ def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
 
-    twitch_bp = make_twitch_blueprint(redirect_to="twitch_authorized")
-    app.register_blueprint(twitch_bp, url_prefix='/twitch')
+    twitch_bp = make_twitch_blueprint()
+    app.register_blueprint(twitch_bp, url_prefix='/twitch_login')

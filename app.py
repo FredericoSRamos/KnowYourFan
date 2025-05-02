@@ -141,24 +141,18 @@ def twitch_login():
         return redirect("/login")
 
     if not twitch.authorized:
-        print("Redirect URI:", url_for("twitch.login"))
         return redirect(url_for("twitch.login"))
 
-    return redirect("/principal")
-
-@app.route("/twitch/authorized")
-def twitch_authorized():
-    if not twitch.authorized:
-        print("Redirect URI:", url_for("twitch.authorized"))
-        print("Redirect URI:", url_for("twitch_authorized"))
-        return render_template("link.html", message="Erro na autenticação")
-
     response = twitch.get("users")
-    user_info = response.json()
 
-    print(user_info)
+    if response.ok():
+        user_info = response.json()
 
-    return render_template("link.html", success="Autenticado com sucesso")
+        message = f"Usuário {user_info["data"][0].get("display_name")} autenticado com sucesso!"
+
+        return render_template("link.html", success="Autenticado com sucesso!")
+
+    return render_template("link.html", message="Erro na autenticação")
 
 @app.route("/bot-response", methods=["POST"])
 def get_bot_response():
