@@ -103,7 +103,7 @@ def main():
     "
 
     response, status_code = handle_ai_connection(app.config["GOOGLE_GEMINI_API_KEY"], prompt)
-    print(response)
+    
     if status_code != 200:
         return render_template("main.html", username=username, message="Houve um erro ao carregar o conteúdo principal")
 
@@ -145,12 +145,12 @@ def twitch_login():
 
     response = twitch.get("users")
 
-    if response.ok():
+    if response.ok:
         user_info = response.json()
 
-        message = f"Usuário {user_info["data"][0].get("display_name")} autenticado com sucesso!"
+        message = f"Usuário {user_info['data'][0].get('display_name')} autenticado com sucesso!"
 
-        return render_template("link.html", success="Autenticado com sucesso!")
+        return render_template("link.html", success=message)
 
     return render_template("link.html", message="Erro na autenticação")
 
