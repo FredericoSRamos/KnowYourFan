@@ -2,8 +2,6 @@
 
 Uma aplicação web desenvolvida com **Flask**, que combina autenticação de usuários com funcionalidades de inteligência artificial para entrega de notícias personalizadas e validação de documentos.
 
-Acesse em: [knowyourfan.pythonanywhere.com](https://knowyourfan.pythonanywhere.com)
-
 ## ✨ Funcionalidades
 
 - **Cadastro e Login de Usuários**  
@@ -17,14 +15,7 @@ Acesse em: [knowyourfan.pythonanywhere.com](https://knowyourfan.pythonanywhere.c
   - ✅ **Verificar Documento**: Página de upload onde o sistema analisa uma imagem enviada (ex: documento) e verifica se as informações são compatíveis com os dados do usuário.
   - 🔗 **Vincular Contas**: Integração com plataformas externas, como a **Twitch**, permitindo o vínculo da conta do usuário.
 
-## 🚀 Acessar Online
-
-Acesse a aplicação diretamente pelo link:  
-🔗 [https://knowyourfan.pythonanywhere.com](https://knowyourfan.pythonanywhere.com)
-
 ## 🛠️ Instalação Local
-
-Caso prefira rodar localmente:
 
 1. Clone o repositório:
    ```
